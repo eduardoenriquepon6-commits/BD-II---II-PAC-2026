@@ -46,7 +46,7 @@ BEGIN
                 REGISTRO_CATEGORIA.NOMBRECAT
 
             );
-            --COMMIT;
+            COMMIT;
 
             DBMS_OUTPUT.PUT_LINE('REGISTRO DE CATEGORIA INSERTADO');
 
@@ -70,7 +70,7 @@ BEGIN
                 FILA_PROVEEDOR.TEL_FIJO
 
             );
-            --COMMIT;
+            COMMIT;
 
             DBMS_OUTPUT.PUT_LINE('REGISTRO DE PROVEEDOR INSERTADO');
 
@@ -84,3 +84,11 @@ BEGIN
 END;
 
 SET SERVEROUTPUT ON;
+
+SELECT *
+FROM CATEGORIAS;
+
+SELECT *
+FROM PROVEEDORES;
+
+COMMIT;
