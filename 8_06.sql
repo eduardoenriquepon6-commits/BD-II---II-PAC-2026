@@ -1,0 +1,51 @@
+DECLARE 
+
+    EST_CORRECTO NUMBER(1);
+
+BEGIN
+
+    INSERT INTO CATEGORIAS VALUES (1, 'Categoría 1');
+    INSERT INTO CATEGORIAS VALUES (2, 'Categoría 2');
+    INSERT INTO CATEGORIAS VALUES (3, 'Categoría 3');
+    SAVEPOINT ESTADO1;
+    EST_CORRECTO := 1;
+
+    INSERT INTO CATEGORIAS VALUES (4, 'Categoría 4');
+    INSERT INTO CATEGORIAS VALUES (5, 'Categoría 5');
+    SAVEPOINT ESTADO1;
+    EST_CORRECTO := 2;
+
+    INSERT INTO CATEGORIAS VALUES (6, 'Categoría 6');
+    INSERT INTO CATEGORIAS VALUES (6, 'Categoría 7');
+    SAVEPOINT ESTADO1;
+    EST_CORRECTO := 3;
+    COMMIT;
+
+    EXCEPTION
+
+        WHEN OTHERS THEN 
+
+            DBMS_OUTPUT.PUT_LINE('ERROR AL INSERTAR: ' || SQLCODE);
+
+            CASE 
+
+                WHEN EST_CORRECTO = 1 THEN
+
+                    ROLLBACK TO SAVEPOINT ESTADO1;
+                    COMMIT;
+
+                WHEN EST_CORRECTO = 2 THEN
+
+                    ROLLBACK TO SAVEPOINT ESTADO2;
+                    COMMIT;
+
+                WHEN EST_CORRECTO = 3 THEN
+
+                    COMMIT;
+
+            END CASE;
+            --COMMIT;
+
+END;
+
+SET SERVEROUTPUT ON;
